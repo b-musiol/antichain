@@ -107,8 +107,7 @@ bool Object<Element_T>::insert(Element_T element)
     size_t current_bucket = 1;
     reset_erase_flag();
     // rejection loop
-    for (;
-         current_bucket < buckets.size() && current_bucket <= element.size();
+    for (; current_bucket < buckets.size() && current_bucket <= element.size();
          current_bucket++)
     {
         // Check if any of the elements in the smaller buckets are comparable
@@ -158,13 +157,15 @@ bool Object<Element_T>::insert(Element_T element)
         auto &curr_erase_flags = erase_flags[current_bucket];
         auto &flags            = erase_flags[current_bucket];
 
-        // Idea: Move the valid parts to the front and then cut the vector to the size of the amount of valid objects. That makes 
+        // Idea: Move the valid parts to the front and then cut the vector to
+        // the size of the amount of valid objects.
         size_t write = 0;
         for (size_t read = 0; read < bucket.size(); ++read)
         {
             if (!flags[read])
             {
-                // self-move is not safe, so we have to guard it. It shouldn't do anything anyway.
+                // self-move is not safe, so we have to guard it. It shouldn't
+                // do anything anyway.
                 if (write != read)
                 {
                     bucket[write] = std::move(bucket[read]);

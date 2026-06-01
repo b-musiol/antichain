@@ -26,8 +26,7 @@ concept StringLike = std::same_as<std::remove_cvref_t<T>, std::string> ||
 template <typename T>
 concept IntegralOrString = std::integral<T> || StringLike<T>;
 
-
-} // namespace Concept
+} // namespace _Internal_
 } // namespace Antichain
 
 #endif // _KNOKAN_CONCEPTS_HPP

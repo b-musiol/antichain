@@ -16,7 +16,6 @@
 #include <iterator>
 #include <set>
 
-
 /*-----------------------------------------------------
  * Declaration
  */
