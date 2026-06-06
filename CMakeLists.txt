@@ -2,10 +2,12 @@ cmake_minimum_required(VERSION 3.14)
 
 project(antichain)
 
+option(ANTICHAIN_BUILD_TEST "Build tests for Antichain" ON)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+if(ANTICHAIN_BUILD_TEST)
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -25,3 +27,4 @@ include(GoogleTest)
 enable_testing()
 
 gtest_discover_tests(RunTests_Antichain)
+endif()
