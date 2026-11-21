@@ -10,6 +10,7 @@
 #define _ANTICHAIN__HPP
 
 #include "BaseElement.hpp"
+#include <ranges>
 #include <vector>
 
 /*-----------------------------------------------------
@@ -24,7 +25,7 @@ template <Template::Antichain_Base_Element Element_T> class Object
     Object();
 
   public:
-    bool insert(Element_T element);
+    bool insert(Element_T element, bool dry_run = false);
     void clean();
 
   public:
@@ -102,11 +103,15 @@ void Object<Element_T>::reset_erase_flag()
 }
 
 template <Template::Antichain_Base_Element Element_T>
-bool Object<Element_T>::insert(Element_T element)
+bool Object<Element_T>::insert(Element_T element, bool dry_run)
 {
     size_t current_bucket = 1;
-    reset_erase_flag();
+    // If dry run, do not actually reset the erase flag
+    if (!dry_run)
+        reset_erase_flag();
     // rejection loop
+    // The rejection loop is read only, so we don't need to do anything
+    // different between a dry run and a real run.
     for (; current_bucket < buckets.size() && current_bucket <= element.size();
          current_bucket++)
     {
@@ -126,6 +131,12 @@ bool Object<Element_T>::insert(Element_T element)
             }
         }
     }
+
+    // From here on out the result would be true (so the element would be
+    // inserted). If we just want a dry run, we should skip all that and just
+    // return what would happen if we actually did this for real.
+    if (dry_run)
+        return true;
 
     // eviction loop
     for (; current_bucket < buckets.size(); current_bucket++)
